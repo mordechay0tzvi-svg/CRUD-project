@@ -1,3 +1,6 @@
+from logging import DEBUG
+
+
 class Shape:
     count = 0
     def __init__(self, shape_id, shape_type):
@@ -9,5 +12,4 @@ class Shape:
         pass
     def to_dict(self):
         pass
-
 

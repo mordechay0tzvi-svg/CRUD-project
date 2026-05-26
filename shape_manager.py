@@ -16,6 +16,9 @@ class ShapeManager:
             if shape.id == shape_id:
                 self.shapes.remove(shape)
     def save_to_json(self):
-        pass
+        with open("shapes.json", "w") as f:
+            json.dump(self.shapes, f, indent=2)
     def load_from_json(self):
-        pass
+        with open("shapes.json", "r") as f:
+            self.shapes = json.load(f)
+
