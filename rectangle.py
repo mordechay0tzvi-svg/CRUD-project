@@ -13,4 +13,9 @@ class Rectangle(Shape):
     def get_circumference(self):
         return self.length * 2 + self.height * 2
     def to_dict(self):
-        pass
+        return {"id":self.shape_id,
+                "type": self.shape_type,
+                "length":self.length,
+                "height":self.height,
+                "area": self.get_area(),
+                "perimeter":self.get_circumference()}

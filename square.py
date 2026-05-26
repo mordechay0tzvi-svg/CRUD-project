@@ -12,4 +12,9 @@ class Square(Shape):
     def get_circumference(self):
         return self.side * 4
     def to_dict(self):
-        return
+        return {"id":self.shape_id,
+                "type":self.shape_type,
+                "side":self.side,
+                "area":self.get_area(),
+                "perimeter":self.get_circumference()}
+
