@@ -2,29 +2,21 @@ import json
 from circle import Circle
 from rectangle import Rectangle
 from square import Square
-
+from shape import Shape
 
 class ShapeManager:
-    shape_types = {"circle":Circle, "square":Square, "rectangle":Rectangle}
     def __init__(self):
         self.shapes = []
         self.load_from_json()
 
     def create_shape(self, shape):
-        try:
-            if shape == "circle":
-                new_shape = Circle(int(input("enter radius")))
-                self.shapes.append(new_shape)
-            elif shape == "square":
-                new_shape = Square(int(input("enter side")))
-                self.shapes.append(new_shape)
-            elif shape == "rectangle":
-                new_shape = Rectangle(int(input("enter length")),int(input("enter height")))
-                self.shapes.append(new_shape)
-        except ValueError:
-            print("must be number")
+        self.load_from_json()
+        self.shapes.append(shape)
+        self.save_to_json()
+
     def get_all_shapes(self):
-        return self.shapes
+        self.load_from_json()
+        return self.shapes.copy()
 
     def update_shape(self, shape_id, new_data):
         for shape in self.shapes:
@@ -34,17 +26,25 @@ class ShapeManager:
                 elif isinstance(shape, Square):
                     shape.side = new_data["side"]
                 elif isinstance(shape, Rectangle):
-                    shape.length = new_data[0]
-                    shape.height = new_data[1]
+                    shape.length = new_data["length"]
+                    shape.height = new_data["height"]
                 return
+
     def delete_shape(self, shape_id):
+        self.load_from_json()
         for shape in self.shapes:
             if shape.id == shape_id:
                 self.shapes.remove(shape)
+                break
+        self.save_to_json()
+
     def save_to_json(self):
             with open("shapes.json", "w") as f:
+                shapes = []
                 for shape in self.shapes:
-                    json.dump(shape.to_dict(), f, indent=2)
+                    shapes.append(shape.to_dict())
+                json.dump(shapes, f, indent=2)
+
     def load_from_json(self):
         try:
             with open("shapes.json", "r") as f:
@@ -57,6 +57,7 @@ class ShapeManager:
                             self.shapes.append(Square(line["side"]))
                     elif line["shape_type"] == "rectangle":
                         self.shapes.append(Rectangle(line["length"], line["height"]))
+            Shape.count = 0
         except FileNotFoundError:
             print("file not found")
             self.shapes = []
