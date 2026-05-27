@@ -2,7 +2,7 @@ from shape import Shape
 class Square(Shape):
     type = "square"
     def __init__(self, side, shape_id=None):
-        shape_id = Shape.count
+        self.type = Square.type
         super().__init__(shape_id, Square.type)
         self.side = side
     def get_area(self):

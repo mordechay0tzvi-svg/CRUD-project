@@ -41,7 +41,7 @@ class ShapeManager:
         for shape in self.shapes:
             if shape.shape_id == shape_id:
                 self.shapes.remove(shape)
-                break
+                return
         self.save_to_json()
         print("shape not found")
 
@@ -51,7 +51,6 @@ class ShapeManager:
                 for shape in self.shapes:
                     shapes.append(shape.to_dict())
                 json.dump(shapes, f, indent=2)
-            Shape.count = 0
 
     def load_from_json(self):
         try:
@@ -65,15 +64,11 @@ class ShapeManager:
                             self.shapes.append(Square(line["side"],line["shape_id"]))
                     elif line["shape_type"] == "rectangle":
                         self.shapes.append(Rectangle(line["length"], line["height"],line["shape_id"]))
-                if self.shapes:
-                    Shape.count = max(shape.shape_id for shape in self.shapes) + 1
-                else:
-                    Shape.count = 1
         except FileNotFoundError:
             self.shapes = []
 
     def find_type(self,id):
         for shape in self.shapes.copy():
             if shape.shape_id == id:
-                return shape.shape_type
+                return shape.type
         return None

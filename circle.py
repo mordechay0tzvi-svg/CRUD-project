@@ -2,7 +2,7 @@ from shape import Shape
 class Circle(Shape):
     type = "circle"
     def __init__(self, radius, shape_id=None):
-        shape_id = Shape.count
+        self.type = Circle.type
         super().__init__(shape_id, Circle.type)
         self.radius = radius
     def get_area(self):
