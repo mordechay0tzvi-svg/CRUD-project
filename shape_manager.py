@@ -3,6 +3,7 @@ from circle import Circle
 from rectangle import Rectangle
 from square import Square
 from shape import Shape
+from json.decoder import JSONDecodeError
 
 class ShapeManager:
     def __init__(self):
@@ -12,7 +13,7 @@ class ShapeManager:
         self.load_from_json()
         self.shapes.append(shape)
         self.save_to_json()
-        print("===========\n shape added\n =============")
+        print("===========\n Shape added\n =============")
 
     def get_all_shapes(self):
         self.load_from_json()
@@ -37,13 +38,14 @@ class ShapeManager:
         return
 
     def delete_shape(self, shape_id):
-        self.load_from_json()
-        for shape in self.shapes:
-            if shape.shape_id == shape_id:
-                self.shapes.remove(shape)
-                return
-        self.save_to_json()
-        print("shape not found")
+        try:
+            for shape in self.shapes:
+                if shape.shape_id == shape_id:
+                    self.shapes.remove(shape)
+            self.save_to_json()
+        except IndexError:
+            print("shape not found")
+
 
     def save_to_json(self):
             with open("shapes.json", "w") as f:
@@ -64,7 +66,11 @@ class ShapeManager:
                             self.shapes.append(Square(line["side"],line["shape_id"]))
                     elif line["shape_type"] == "rectangle":
                         self.shapes.append(Rectangle(line["length"], line["height"],line["shape_id"]))
+        except JSONDecodeError:
+            self.shapes = []
+            print("!!No shapes yet!!")
         except FileNotFoundError:
+            print("!!No shapes yet!!")
             self.shapes = []
 
     def find_type(self,id):

@@ -1,14 +1,18 @@
 [
   {
-    "shape_id": -1,
+    "shape_id": 1,
     "shape_type": "rectangle",
-    "length": 3,
-    "height": 4
+    "length": 1,
+    "height": 2
   },
   {
-    "shape_id": -1,
-    "shape_type": "rectangle",
-    "length": 6,
-    "height": 7
+    "shape_id": 3,
+    "shape_type": "square",
+    "side": 4
+  },
+  {
+    "shape_id": 4,
+    "shape_type": "square",
+    "side": 5
   }
 ]
