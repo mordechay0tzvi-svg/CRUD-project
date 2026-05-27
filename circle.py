@@ -16,6 +16,8 @@ class Circle(Shape):
                 "radius": self.radius,
                 "area": self.get_area(),
                 "perimeter": self.get_circumference()}
+    def __str__(self):
+        print(f"{self.type}-{self.shape_id}, radius: {self.radius} area: {self.get_area()}, circumference: {self.get_circumference()}")
 
 
 c1 = Circle(7)
