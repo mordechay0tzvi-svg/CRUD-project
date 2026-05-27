@@ -3,7 +3,6 @@ class Rectangle(Shape):
     type = "rectangle"
     def __init__(self, height, length):
         shape_id = Shape.count
-        Shape.count += 1
         super().__init__(shape_id, Rectangle.type)
         self.height = height
         self.length = length
@@ -18,4 +17,4 @@ class Rectangle(Shape):
                 "height":self.height,
                 }
     def __str__(self):
-        print(f"{self.type}-{self.shape_id}, length: {self.length}, height: {self.height} area: {self.get_area()}, circumference: {self.get_circumference()}")
+        return f"{self.type}-{self.shape_id}, length: {self.length}, height: {self.height} area: {self.get_area()}, circumference: {self.get_circumference()}"

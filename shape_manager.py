@@ -12,31 +12,37 @@ class ShapeManager:
         self.load_from_json()
         self.shapes.append(shape)
         self.save_to_json()
-        print("=========\n shape added\n ==========")
+        print("===========\n shape added\n =============")
 
     def get_all_shapes(self):
         self.load_from_json()
         return self.shapes
 
+
     def update_shape(self, shape_id, new_data):
+        self.load_from_json()
         for shape in self.shapes:
-            if shape.id == shape_id:
+            if shape.shape_id == shape_id:
                 if isinstance(shape, Circle):
                     shape.radius = new_data["radius"]
+                    break
                 elif isinstance(shape, Square):
                     shape.side = new_data["side"]
+                    break
                 elif isinstance(shape, Rectangle):
                     shape.length = new_data["length"]
                     shape.height = new_data["height"]
-                return
+                    break
+        self.save_to_json()
+        return
 
     def delete_shape(self, shape_id):
         self.load_from_json()
         for shape in self.shapes:
-            if shape.id == shape_id:
+            if shape.shape_id == shape_id:
                 self.shapes.remove(shape)
-                self.save_to_json()
                 break
+        self.save_to_json()
         print("shape not found")
 
     def save_to_json(self):
@@ -45,6 +51,7 @@ class ShapeManager:
                 for shape in self.shapes:
                     shapes.append(shape.to_dict())
                 json.dump(shapes, f, indent=2)
+            Shape.count = 0
 
     def load_from_json(self):
         try:
@@ -58,7 +65,11 @@ class ShapeManager:
                             self.shapes.append(Square(line["side"]))
                     elif line["shape_type"] == "rectangle":
                         self.shapes.append(Rectangle(line["length"], line["height"]))
-            Shape.count = 0
         except FileNotFoundError:
             self.shapes = []
 
+    def find_type(self,id):
+        for shape in self.shapes.copy():
+            if shape.shape_id == id:
+                return shape.shape_type
+        return None

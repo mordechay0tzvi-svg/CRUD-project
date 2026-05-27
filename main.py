@@ -10,20 +10,20 @@ def menu():
 
 def main():
     sm = ShapeManager()
-    shape_list = sm.get_all_shapes().copy()
+    shape_list = sm.get_all_shapes()
     while True:
         print("Welcome to CRUD")
         menu()
         choice = input("enter your choice: ")
         if choice == '1':
             type = input("enter shape type to add: ")
-            if type == "circle":
+            if type == "c":
                 new_shape = Circle(int(input("enter radius: ")))
                 sm.create_shape(new_shape)
-            elif type == "square":
+            elif type == "s":
                 new_shape = Square(int(input("enter side: ")))
                 sm.create_shape(new_shape)
-            elif type == "rectangle":
+            elif type == "r":
                 new_shape = Rectangle(int(input("enter length: ")), int(input("enter height: ")))
                 sm.create_shape(new_shape)
             else:
@@ -34,17 +34,15 @@ def main():
         elif choice == '3':
             try:
                 id = int(input("enter shape id: "))
-                for shape in shape_list:
-                    if shape.shape_id == id:
-                        if shape.shape_type == "circle":
-                            shape.radius = int(input("enter radius: "))
-                        elif shape.shape_type == "square":
-                            shape.side = int(input("enter side: "))
-                        elif shape.shape_type == "rectangle":
-                            shape.length, shape.height = int(input("enter length")), int(input("enter height"))
-                        else:
-                            print("shape not found")
-            except TypeError:
+                type = sm.find_type(id)
+                if not type:
+                    print("shape not found")
+                info = {"circle":"radius", "square":"side"}
+                if type in info.keys():
+                    sm.update_shape(id, {info[type]:int(input(f"enter new{info[type]}"))})
+                elif type == "rectangle":
+                    sm.update_shape(id, {"length":int(input("enter length")), "height":int(input("enter height")) })
+            except ValueError:
                 print("must be number")
         elif choice == '4':
             try:
@@ -58,7 +56,7 @@ def main():
             print("not a valid option")
             continue
 
-
-
-
 main()
+
+
+
