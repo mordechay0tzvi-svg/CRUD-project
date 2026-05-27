@@ -12,10 +12,11 @@ class ShapeManager:
         self.load_from_json()
         self.shapes.append(shape)
         self.save_to_json()
+        print("=========\n shape added\n ==========")
 
     def get_all_shapes(self):
         self.load_from_json()
-        return self.shapes.copy()
+        return self.shapes
 
     def update_shape(self, shape_id, new_data):
         for shape in self.shapes:
@@ -34,8 +35,9 @@ class ShapeManager:
         for shape in self.shapes:
             if shape.id == shape_id:
                 self.shapes.remove(shape)
+                self.save_to_json()
                 break
-        self.save_to_json()
+        print("shape not found")
 
     def save_to_json(self):
             with open("shapes.json", "w") as f:
@@ -58,6 +60,5 @@ class ShapeManager:
                         self.shapes.append(Rectangle(line["length"], line["height"]))
             Shape.count = 0
         except FileNotFoundError:
-            print("file not found")
             self.shapes = []
 

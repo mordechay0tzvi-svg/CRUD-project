@@ -11,8 +11,8 @@ class Circle(Shape):
     def get_circumference(self):
         return 2 * self.radius * 3.147
     def to_dict(self):
-        return {"id": self.shape_id,
-                "type": self.shape_type,
+        return {"shape_id": self.shape_id,
+                "shape_type": self.shape_type,
                 "radius": self.radius,
                 }
     def __str__(self):

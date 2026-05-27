@@ -1,5 +1,5 @@
 class Shape:
-    count = 0
+    count = 1
     def __init__(self, shape_id, shape_type):
         self.shape_type = shape_type
         self.shape_id = shape_id
