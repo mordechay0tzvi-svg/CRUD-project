@@ -7,7 +7,6 @@ from shape import Shape
 class ShapeManager:
     def __init__(self):
         self.shapes = []
-        self.load_from_json()
 
     def create_shape(self, shape):
         self.load_from_json()

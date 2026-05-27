@@ -14,16 +14,15 @@ class Circle(Shape):
         return {"id": self.shape_id,
                 "type": self.shape_type,
                 "radius": self.radius,
-                "area": self.get_area(),
-                "perimeter": self.get_circumference()}
+                }
     def __str__(self):
         print(f"{self.type}-{self.shape_id}, radius: {self.radius} area: {self.get_area()}, circumference: {self.get_circumference()}")
 
-
-c1 = Circle(7)
-print(c1.radius)
-print(c1.type)
-print(c1.get_area())
-print(c1.get_circumference())
-
-
+#
+# c1 = Circle(7)
+# print(c1.radius)
+# print(c1.type)
+# print(c1.get_area())
+# print(c1.get_circumference())
+#
+#
