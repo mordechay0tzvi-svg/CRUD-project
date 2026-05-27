@@ -4,7 +4,7 @@ class ShapeManager:
         self.shapes = []
         self.load_from_json()
     def create_shape(self, shape):
-        pass
+        self.shapes.append(shape)
     def get_all_shapes(self):
         return self.shapes
     def update_shape(self, shape_id, new_data):

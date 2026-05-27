@@ -1,11 +1,10 @@
 from shape import Shape
 class Circle(Shape):
     type = "circle"
-    def __init__(self, shape_id, shape_type, radius):
-        super().__init__(shape_id, shape_type)
-        self.shape_id = Shape.count
+    def __init__(self, radius):
+        shape_id = Shape.count
         Shape.count += 1
-        self.shape_type = Circle.type
+        super().__init__(shape_id, Circle.type)
         self.radius = radius
     def get_area(self):
         return self.radius ** 2 * 3.147
@@ -19,5 +18,10 @@ class Circle(Shape):
                 "perimeter": self.get_circumference()}
 
 
+c1 = Circle(7)
+print(c1.radius)
+print(c1.type)
+print(c1.get_area())
+print(c1.get_circumference())
 
 

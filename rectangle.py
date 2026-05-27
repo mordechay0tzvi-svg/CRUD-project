@@ -1,11 +1,10 @@
 from shape import Shape
 class Rectangle(Shape):
     type = "rectangle"
-    def __init__(self, shape_id, shape_type, height, length):
-        super().__init__(shape_id, shape_type)
-        self.shape_id = Shape.count
+    def __init__(self, height, length):
+        shape_id = Shape.count
         Shape.count += 1
-        self.shape_type = Rectangle.type
+        super().__init__(shape_id, Rectangle.type)
         self.height = height
         self.length = length
     def get_area(self):
