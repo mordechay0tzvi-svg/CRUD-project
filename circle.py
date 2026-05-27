@@ -1,17 +1,17 @@
 from shape import Shape
 class Circle(Shape):
     type = "circle"
-    def __init__(self, radius):
+    def __init__(self, radius, shape_id=None):
         shape_id = Shape.count
         super().__init__(shape_id, Circle.type)
         self.radius = radius
     def get_area(self):
-        return self.radius ** 2 * 3.147
+        return self.radius ** 2 * 3.14159
     def get_circumference(self):
-        return 2 * self.radius * 3.147
+        return 2 * self.radius * 3.14159
     def to_dict(self):
         return {"shape_id": self.shape_id,
-                "shape_type": self.shape_type,
+                "shape_type": Circle.type,
                 "radius": self.radius,
                 }
     def __str__(self):

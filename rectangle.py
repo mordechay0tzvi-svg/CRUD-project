@@ -1,7 +1,7 @@
 from shape import Shape
 class Rectangle(Shape):
     type = "rectangle"
-    def __init__(self, height, length):
+    def __init__(self, height, length, shape_id=None):
         shape_id = Shape.count
         super().__init__(shape_id, Rectangle.type)
         self.height = height
@@ -12,7 +12,7 @@ class Rectangle(Shape):
         return self.length * 2 + self.height * 2
     def to_dict(self):
         return {"shape_id":self.shape_id,
-                "shape_type": self.shape_type,
+                "shape_type": Rectangle.type,
                 "length":self.length,
                 "height":self.height,
                 }

@@ -60,11 +60,15 @@ class ShapeManager:
                 self.shapes = []
                 for line in file:
                     if line["shape_type"] == "circle":
-                        self.shapes.append(Circle(line["radius"]))
+                        self.shapes.append(Circle(line["radius"],line["shape_id"]))
                     elif line["shape_type"] == "square":
-                            self.shapes.append(Square(line["side"]))
+                            self.shapes.append(Square(line["side"],line["shape_id"]))
                     elif line["shape_type"] == "rectangle":
-                        self.shapes.append(Rectangle(line["length"], line["height"]))
+                        self.shapes.append(Rectangle(line["length"], line["height"],line["shape_id"]))
+                if self.shapes:
+                    Shape.count = max(shape.shape_id for shape in self.shapes) + 1
+                else:
+                    Shape.count = 1
         except FileNotFoundError:
             self.shapes = []
 

@@ -1,7 +1,7 @@
 from shape import Shape
 class Square(Shape):
     type = "square"
-    def __init__(self, side):
+    def __init__(self, side, shape_id=None):
         shape_id = Shape.count
         super().__init__(shape_id, Square.type)
         self.side = side
@@ -11,7 +11,7 @@ class Square(Shape):
         return self.side * 4
     def to_dict(self):
         return {"shape_id":self.shape_id,
-                "shape_type":self.shape_type,
+                "shape_type":Square.type,
                 "side":self.side,
                 }
     def __str__(self):
