@@ -35,6 +35,7 @@ class ShapeManager:
                     shape.height = new_data["height"]
                     break
         self.save_to_json()
+        print("===========\n Shape updated\n =============")
         return
 
     def delete_shape(self, shape_id):
@@ -43,8 +44,9 @@ class ShapeManager:
                 if shape.shape_id == shape_id:
                     self.shapes.remove(shape)
             self.save_to_json()
+            print("===========\n Shape deleted\n =============")
         except IndexError:
-            print("shape not found")
+            print("!!Shape not found!!")
 
 
     def save_to_json(self):

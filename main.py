@@ -17,6 +17,7 @@ def main():
         if choice == '1':
             try:
                 type = input("Enter shape type to add: ")
+                print(f"r - for rectangle. c - for circle. s - for square")
                 if type == "c":
                     new_shape = Circle(int(input("Enter radius: ")))
                     sm.create_shape(new_shape)
