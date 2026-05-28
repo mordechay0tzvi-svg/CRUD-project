@@ -15,6 +15,6 @@ class Circle(Shape):
                 "radius": self.radius,
                 }
     def __str__(self):
-        return f"{self.type}-{self.shape_id}, radius: {self.radius} area: {self.get_area()}, circumference: {self.get_circumference()}"
+        return f"{self.type}- shape id: {self.shape_id}, radius: {self.radius} area: {self.get_area()}, circumference: {self.get_circumference()}"
 
 
