@@ -38,7 +38,7 @@ def update_shape_handler(sm):
         if type in info.keys():
             sm.update_shape(id, {info[type]:int(input(f"enter new{info[type]}"))})
         elif type == "rectangle":
-            sm.update_shape(id, {"height":int(input("enter length")), "length":int(input("enter height"))})
+            sm.update_shape(id, {"length":int(input("enter length")), "height":int(input("enter height"))})
     except ValueError:
         print("=======\n Must be number \n========")
 
