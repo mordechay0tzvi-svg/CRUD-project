@@ -1,7 +1,7 @@
 from shape import Shape
 class Rectangle(Shape):
     type = "rectangle"
-    def __init__(self, height, length, shape_id=None):
+    def __init__(self, length, height, shape_id=None):
         self.type = Rectangle.type
         super().__init__(shape_id, Rectangle.type)
         self.height = height

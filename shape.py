@@ -1,4 +1,3 @@
-
 class Shape:
     count = 1
     def __init__(self, shape_id=None, shape_type=None):
