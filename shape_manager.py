@@ -9,18 +9,21 @@ class ShapeManager:
         self.shapes = []
 
     def create_shape(self, shape):
+        """gets a shape object fron main and adds it to the list"""
         self.load_from_json()
         self.shapes.append(shape)
         self.save_to_json()
         print("===========\n Shape added\n =============")
 
     def get_all_shapes(self):
+        '''return the shapes list'''
         self.load_from_json()
         if not self.shapes:
             return []
         return self.shapes
 
     def get_id(self):
+        """returns the id for the shape created on main by checking the last id given or 1 if no shapes yet"""
         try:
             self.load_from_json()
             if not self.shapes:
@@ -30,6 +33,7 @@ class ShapeManager:
             return 1
 
     def update_shape(self, shape_id, new_data):
+        """changes attributes of shape by its id"""
         self.load_from_json()
         for shape in self.shapes:
             if shape.shape_id == shape_id:
@@ -48,6 +52,7 @@ class ShapeManager:
         return
 
     def delete_shape(self, shape_id):
+        """gets an id and removes the shape that matches that id"""
         try:
             for shape in self.shapes:
                 if shape.shape_id == shape_id:
@@ -59,13 +64,15 @@ class ShapeManager:
 
 
     def save_to_json(self):
-            with open("shapes.json", "w") as f:
-                shapes = []
-                for shape in self.shapes:
-                    shapes.append(shape.to_dict())
-                json.dump(shapes, f, indent=2)
+        """saves thet shapes list to the file by converting them to dict string"""
+        with open("shapes.json", "w") as f:
+            shapes = []
+            for shape in self.shapes:
+                shapes.append(shape.to_dict())
+            json.dump(shapes, f, indent=2)
 
     def load_from_json(self):
+        """loads the shapes from the file to the shapes list"""
         try:
             with open("shapes.json", "r") as f:
                 file = json.load(f)
@@ -83,6 +90,7 @@ class ShapeManager:
             print("!!No shapes yet!!")
 
     def find_type(self,id):
+        """returns the type of the shape by the given id the know how many inputs needed for the updating"""
         for shape in self.shapes.copy():
             if shape.shape_id == id:
                 return shape.type
