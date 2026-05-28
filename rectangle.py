@@ -18,3 +18,4 @@ class Rectangle(Shape):
                 }
     def __str__(self):
         return f"{self.type}-{self.shape_id}, length: {self.length}, height: {self.height} area: {self.get_area()}, circumference: {self.get_circumference()}"
+

@@ -17,3 +17,4 @@ class Square(Shape):
     def __str__(self):
         return f"{self.type}-{self.shape_id}, side: {self.side} area: {self.get_area()}, circumference: {self.get_circumference()}"
 
+

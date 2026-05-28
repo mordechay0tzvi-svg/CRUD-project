@@ -18,5 +18,3 @@ class Circle(Shape):
         return f"{self.type}-{self.shape_id}, radius: {self.radius} area: {self.get_area()}, circumference: {self.get_circumference()}"
 
 
-
-

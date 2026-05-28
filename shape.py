@@ -1,4 +1,3 @@
-from itertools import count
 
 class Shape:
     count = 1
@@ -14,3 +13,4 @@ class Shape:
         pass
     def to_dict(self):
         pass
+

@@ -2,7 +2,6 @@ import json
 from circle import Circle
 from rectangle import Rectangle
 from square import Square
-from shape import Shape
 from json.decoder import JSONDecodeError
 
 class ShapeManager:
@@ -17,8 +16,18 @@ class ShapeManager:
 
     def get_all_shapes(self):
         self.load_from_json()
+        if not self.shapes:
+            return []
         return self.shapes
 
+    def get_id(self):
+        try:
+            self.load_from_json()
+            if not self.shapes:
+                return 1
+            return max(shape.shape_id for shape in self.shapes) + 1
+        except FileNotFoundError:
+            return 1
 
     def update_shape(self, shape_id, new_data):
         self.load_from_json()
@@ -68,12 +77,10 @@ class ShapeManager:
                             self.shapes.append(Square(line["side"],line["shape_id"]))
                     elif line["shape_type"] == "rectangle":
                         self.shapes.append(Rectangle(line["length"], line["height"],line["shape_id"]))
+
         except JSONDecodeError:
             self.shapes = []
             print("!!No shapes yet!!")
-        except FileNotFoundError:
-            print("!!No shapes yet!!")
-            self.shapes = []
 
     def find_type(self,id):
         for shape in self.shapes.copy():

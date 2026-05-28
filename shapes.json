@@ -2,17 +2,7 @@
   {
     "shape_id": 1,
     "shape_type": "rectangle",
-    "length": 1,
+    "length": 3,
     "height": 2
-  },
-  {
-    "shape_id": 3,
-    "shape_type": "square",
-    "side": 4
-  },
-  {
-    "shape_id": 4,
-    "shape_type": "square",
-    "side": 5
   }
 ]

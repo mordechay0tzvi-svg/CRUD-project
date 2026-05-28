@@ -1,5 +1,4 @@
 from shape_manager import *
-
 def menu():
     print("================")
     print("Add shape .1")
@@ -17,15 +16,14 @@ def main():
         if choice == '1':
             try:
                 type = input("Enter shape type to add: ")
-                print(f"r - for rectangle. c - for circle. s - for square")
                 if type == "c":
-                    new_shape = Circle(int(input("Enter radius: ")))
+                    new_shape = Circle(int(input("Enter radius: ")),sm.get_id())
                     sm.create_shape(new_shape)
                 elif type == "s":
-                    new_shape = Square(int(input("Enter side: ")))
+                    new_shape = Square(int(input("Enter side: ")),sm.get_id())
                     sm.create_shape(new_shape)
                 elif type == "r":
-                    new_shape = Rectangle(int(input("Enter length: ")), int(input("enter height: ")))
+                    new_shape = Rectangle(int(input("Enter length: ")), int(input("enter height: ")),sm.get_id())
                     sm.create_shape(new_shape)
                 else:
                     print("Not an option")
@@ -34,7 +32,7 @@ def main():
 
         elif choice == '2':
             for shape in sm.get_all_shapes():
-                print(shape.to_dict())
+                print(shape)
 
         elif choice == '3':
             try:
