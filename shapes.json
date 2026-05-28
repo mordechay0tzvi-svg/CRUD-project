@@ -5,19 +5,13 @@
     "side": 8
   },
   {
-    "shape_id": 4,
-    "shape_type": "square",
-    "side": 5
-  },
-  {
-    "shape_id": 5,
-    "shape_type": "rectangle",
-    "length": 4,
-    "height": 5
-  },
-  {
     "shape_id": 6,
     "shape_type": "square",
     "side": 25
+  },
+  {
+    "shape_id": 7,
+    "shape_type": "circle",
+    "radius": 6
   }
 ]
