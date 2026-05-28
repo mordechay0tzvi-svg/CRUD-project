@@ -1,8 +1,23 @@
 [
   {
     "shape_id": 1,
+    "shape_type": "square",
+    "side": 8
+  },
+  {
+    "shape_id": 4,
+    "shape_type": "square",
+    "side": 5
+  },
+  {
+    "shape_id": 5,
     "shape_type": "rectangle",
-    "length": 3,
-    "height": 2
+    "length": 4,
+    "height": 5
+  },
+  {
+    "shape_id": 6,
+    "shape_type": "square",
+    "side": 25
   }
 ]

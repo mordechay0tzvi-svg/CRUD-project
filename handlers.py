@@ -36,14 +36,14 @@ def update_shape_handler(sm):
             print("!!Shape not found!!")
         info = {"circle":"radius", "square":"side"}
         if type in info.keys():
-            sm.update_shape(id, {info[type]:int(input(f"enter new{info[type]}"))})
+            sm.update_shape(id, {info[type]:int(input(f"enter new {info[type]}:"))})
         elif type == "rectangle":
-            sm.update_shape(id, {"length":int(input("enter length")), "height":int(input("enter height"))})
+            sm.update_shape(id, {"length: ":int(input("enter length")), "height: ":int(input("enter height"))})
     except ValueError:
         print("=======\n Must be number \n========")
 
 def delete_shape_handler(sm):
     try:
-        sm.delete_shape(int(input("Enter id to delete")))
+        sm.delete_shape(int(input("Enter id to delete: ")))
     except ValueError:
         print("!!Not a number!!")

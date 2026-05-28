@@ -57,8 +57,10 @@ class ShapeManager:
             for shape in self.shapes:
                 if shape.shape_id == shape_id:
                     self.shapes.remove(shape)
-            self.save_to_json()
-            print("===========\n Shape deleted\n =============")
+                    print("===========\n Shape deleted\n =============")
+                    return
+            print("!!Shape not found!!")
+            self.save_to_json()     
         except IndexError:
             print("!!Shape not found!!")
 
