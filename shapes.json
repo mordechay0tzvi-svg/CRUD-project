@@ -1,17 +1,7 @@
 [
   {
     "shape_id": 1,
-    "shape_type": "square",
-    "side": 8
-  },
-  {
-    "shape_id": 6,
-    "shape_type": "square",
-    "side": 25
-  },
-  {
-    "shape_id": 7,
     "shape_type": "circle",
-    "radius": 6
+    "radius": 67
   }
 ]
