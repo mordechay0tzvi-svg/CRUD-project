@@ -63,7 +63,7 @@ def delete(id:int):
     return {"message":f"{id} deleted"}
 
 
-uvicorn.run(app, host="localhost", port="8888")
+uvicorn.run(app, host="localhost", port=8888)
 
 
 class NotAShapeError(Exception):
@@ -82,16 +82,18 @@ def creation(data):
     elif type == "r":
         return Rectangle(data['length'], data ["height"], new_id)
     else:
-        raise  NotAShapeError
+        raise NotAShapeError
 
 def updating(data):
     id = data["id"]
     type = sm.find_type(id)
     if type is None :
-        return{"message":"Shape not found"}
-    info = {"circle":"radius", "square":"side"}
-    if type in info.keys():
-        return{id,{info[type]: data[info[type]]}}
+        raise IdNotFound
+    if type == "circle":
+        return{id,{"radius": data["radius"]}}
     elif type == "rectangle":
         return{id, {"length":data["length"], "height":data["height"]}}
+    elif type == "square":
+        return{id,{"side": data["side"]}}
     
+
