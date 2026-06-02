@@ -49,7 +49,7 @@ def get_shape(id:int):
 
 @app.put("/shapes/{id}")
 def replace(id:int, new_data=Body(...)):
-    sm.update_shape(id, new_data)
+    sm.update_shape(updating(id, new_data))
     return {"message":f"{id} updated"}
 
 
@@ -65,8 +65,10 @@ uvicorn.run(app, host="localhost", port="8888")
 class NotAShapeError(Exception):
     pass
 
-def creation(data):
+class IdNotFound(Exception):
+    pass
 
+def creation(data):
     new_id = sm.get_id()
     type = data["type"]
     if type == "c":
@@ -77,3 +79,14 @@ def creation(data):
         return Rectangle(data['length'], data ["height"], new_id)
     else:
         raise  NotAShapeError
+
+def updating(data):
+    id = data["id"]
+    type = sm.find_type(id)
+    if type is None :
+        return{"message":"Shape not found"}
+    info = {"circle":"radius", "square":"side"}
+    if type in info.keys():
+        return{id,{info[type]: data[info[type]]}}
+    elif type == "rectangle":
+        return(id, {"length":data["length"], "height":data["height"]})
