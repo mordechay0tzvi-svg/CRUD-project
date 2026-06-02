@@ -50,7 +50,7 @@ def get_shape(id:int):
 @app.put("/shapes/{id}")
 def replace(id:int, new_data=Body(...)):
     try:
-        sm.update_shape(updating(id, new_data))
+        sm.update_shape(id, updating(new_data))
         return {"message":f"{id} updated"}
     except IdNotFound:
         return {"message":"id not found"}
@@ -93,5 +93,5 @@ def updating(data):
     if type in info.keys():
         return{id,{info[type]: data[info[type]]}}
     elif type == "rectangle":
-        return(id, {"length":data["length"], "height":data["height"]})
+        return{id, {"length":data["length"], "height":data["height"]}}
     
