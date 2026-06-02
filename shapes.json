@@ -8,5 +8,26 @@
     "shape_id": 2,
     "shape_type": "circle",
     "radius": 45
+  },
+  {
+    "shape_id": 3,
+    "shape_type": "circle",
+    "radius": 90
+  },
+  {
+    "shape_id": 4,
+    "shape_type": "square",
+    "side": 18
+  },
+  {
+    "shape_id": 5,
+    "shape_type": "rectangle",
+    "length": 9,
+    "height": 8
+  },
+  {
+    "shape_id": 6,
+    "shape_type": "square",
+    "side": 21
   }
 ]

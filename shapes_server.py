@@ -45,7 +45,7 @@ def create(shape_data: dict = Body(...)):
             shape_obj = Circle(shape_data["radius"], new_id)
         elif shape_type == "square":
             shape_obj = Square(shape_data["side"], new_id)
-        elif shape_type == "radius":
+        elif shape_type == "rectangle":
             shape_obj = Rectangle(shape_data["length"], shape_data["height"], new_id)
         else:
             raise NotAShapeError
@@ -91,7 +91,7 @@ def delete(id:int):
 def type_filter(type:str):
     filterd = []
     for shape in sm.get_all_shapes():
-        if shape.shape_type == type:
+        if shape.type == type:
             filterd.append(shape.to_dict())
     if not filterd:
         return {"message":"no shapes of this type"}
@@ -99,6 +99,4 @@ def type_filter(type:str):
 
 
 uvicorn.run(app, host="localhost", port=8888)
-
-
 
