@@ -37,15 +37,15 @@ def count():
 
 
 @app.post("/shapes")
-def create(shape_data: dict = Body(...)):
+def create(shape_data: dict = Body(...)): 
     shape_type = shape_data.get("type")
     new_id = sm.get_id()
     try:
-        if shape_type == "c":
+        if shape_type == "circle":
             shape_obj = Circle(shape_data["radius"], new_id)
-        elif shape_type == "s":
+        elif shape_type == "square":
             shape_obj = Square(shape_data["side"], new_id)
-        elif shape_type == "r":
+        elif shape_type == "radius":
             shape_obj = Rectangle(shape_data["length"], shape_data["height"], new_id)
         else:
             raise NotAShapeError
@@ -67,14 +67,10 @@ def replace(id: int, new_data: dict = Body(...)):
             update_dict = {"side": new_data["side"]}
         elif shape_type == "rectangle":
             update_dict = {"length": new_data["length"], "height": new_data["height"]}
-        else:
-            raise NotAShapeError  
         sm.update_shape(id, update_dict)
         return {"message": f"{id} updated"}
     except IdNotFound:
         return {"message": "id not found"}
-    
-
     
 
 @app.get("/shapes/{id}")

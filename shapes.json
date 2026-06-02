@@ -6,8 +6,7 @@
   },
   {
     "shape_id": 2,
-    "shape_type": "rectangle",
-    "length": 4,
-    "height": 5
+    "shape_type": "circle",
+    "radius": 45
   }
 ]
