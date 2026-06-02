@@ -5,6 +5,13 @@ from handlers import *
 from shape_manager import ShapeManager
 
 
+class NotAShapeError(Exception):
+    pass
+
+class IdNotFound(Exception):
+    pass
+
+
 app = fastapi.FastAPI()
 sm = ShapeManager()
 
@@ -66,11 +73,7 @@ def delete(id:int):
 uvicorn.run(app, host="localhost", port=8888)
 
 
-class NotAShapeError(Exception):
-    pass
 
-class IdNotFound(Exception):
-    pass
 
 def creation(data):
     new_id = sm.get_id()
