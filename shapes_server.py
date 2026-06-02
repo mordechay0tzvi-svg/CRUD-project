@@ -4,7 +4,6 @@ import uvicorn
 from handlers import *
 from shape_manager import ShapeManager
 
-
 class NotAShapeError(Exception):
     pass
 
@@ -39,12 +38,44 @@ def count():
 
 @app.post("/shapes")
 def create(shape_data: dict = Body(...)):
+    shape_type = shape_data.get("type")
+    new_id = sm.get_id()
     try:
-        sm.create_shape(creation(shape_data)) 
+        if shape_type == "c":
+            shape_obj = Circle(shape_data["radius"], new_id)
+        elif shape_type == "s":
+            shape_obj = Square(shape_data["side"], new_id)
+        elif shape_type == "r":
+            shape_obj = Rectangle(shape_data["length"], shape_data["height"], new_id)
+        else:
+            raise NotAShapeError
+        sm.create_shape(shape_obj)
         return {"message": "created"}
     except NotAShapeError:
         return {"message": "this shape type is not valid"}
 
+
+@app.put("/shapes/{id}")
+def replace(id: int, new_data: dict = Body(...)):
+    try:
+        shape_type = sm.find_type(id)
+        if shape_type is None:
+            raise IdNotFound
+        if shape_type == "circle":
+            update_dict = {"radius": new_data["radius"]}
+        elif shape_type == "square":
+            update_dict = {"side": new_data["side"]}
+        elif shape_type == "rectangle":
+            update_dict = {"length": new_data["length"], "height": new_data["height"]}
+        else:
+            raise NotAShapeError  
+        sm.update_shape(id, update_dict)
+        return {"message": f"{id} updated"}
+    except IdNotFound:
+        return {"message": "id not found"}
+    
+
+    
 
 @app.get("/shapes/{id}")
 def get_shape(id:int):
@@ -52,16 +83,6 @@ def get_shape(id:int):
         if shape.shape_id == id:
             return shape.to_dict()
     return {"message":"shape not found"}
-
-
-@app.put("/shapes/{id}")
-def replace(id:int, new_data=Body(...)):
-    try:
-        sm.update_shape(id, updating(new_data))
-        return {"message":f"{id} updated"}
-    except IdNotFound:
-        return {"message":"id not found"}
-
 
 
 @app.delete("/shapes/{id}")
@@ -73,30 +94,4 @@ def delete(id:int):
 uvicorn.run(app, host="localhost", port=8888)
 
 
-
-
-def creation(data):
-    new_id = sm.get_id()
-    type = data["type"]
-    if type == "c":
-        return Circle(data["radius"], new_id)
-    elif type == "s":
-         return Square(data["side"] ,new_id)
-    elif type == "r":
-        return Rectangle(data['length'], data ["height"], new_id)
-    else:
-        raise NotAShapeError
-
-def updating(data):
-    id = data["id"]
-    type = sm.find_type(id)
-    if type is None :
-        raise IdNotFound
-    if type == "circle":
-        return{id,{"radius": data["radius"]}}
-    elif type == "rectangle":
-        return{id, {"length":data["length"], "height":data["height"]}}
-    elif type == "square":
-        return{id,{"side": data["side"]}}
-    
 
