@@ -4,6 +4,7 @@ from rectangle import Rectangle
 from square import Square
 from json.decoder import JSONDecodeError
 
+
 class ShapeManager:
     def __init__(self):
         self.shapes = []

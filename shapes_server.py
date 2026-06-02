@@ -87,6 +87,17 @@ def delete(id:int):
     return {"message":f"{id} deleted"}
 
 
+@app.get("/shapes/types/{type}")
+def type_filter(type:str):
+    filterd = []
+    for shape in sm.get_all_shapes():
+        if shape.shape_type == type:
+            filterd.append(shape.to_dict())
+    if not filterd:
+        return {"message":"no shapes of this type"}
+    return filterd
+
+
 uvicorn.run(app, host="localhost", port=8888)
 
 
