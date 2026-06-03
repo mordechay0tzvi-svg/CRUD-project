@@ -3,6 +3,7 @@ from fastapi import Body
 import uvicorn
 from handlers import *
 from shape_manager import ShapeManager
+from fastapi import HTTPException
 
 class NotAShapeError(Exception):
     pass
@@ -17,24 +18,30 @@ sm = ShapeManager()
 
 @app.get("/shapes")
 def get__shapes():
-    shape_list = []
-    for shape in sm.get_all_shapes():
-        shape_list.append(shape.to_dict())
-    return shape_list
-
+    try:
+        shape_list = []
+        for shape in sm.get_all_shapes():
+            shape_list.append(shape.to_dict(), "\n")
+        return shape_list
+    except HTTPException:
+        raise HTTPException(status_code=404, detail="no shapes yet")
 
 @app.get("/shapes/total-area")
 def total_area():
-    total = 0 
-    for shpae in sm.get_all_shapes():
-        total += shpae.get_area()
-    return {"total area":total}
-
+    try:
+        total = 0 
+        for shpae in sm.get_all_shapes():
+            total += shpae.get_area()
+        return {"total area":total}
+    except HTTPException:
+        raise HTTPException(status_code=404, detail="no shapes yet")
 
 @app.get("/shapes/count")
 def count():
-    return {"count":len(sm.get_all_shapes())}
-
+    try:
+        return {"count":len(sm.get_all_shapes())}
+    except HTTPException:
+        raise HTTPException(status_code=404, detail="no shapes yet")
 
 @app.post("/shapes")
 def create(shape_data: dict = Body(...)): 
@@ -51,8 +58,8 @@ def create(shape_data: dict = Body(...)):
             raise NotAShapeError
         sm.create_shape(shape_obj)
         return {"message": "created"}
-    except NotAShapeError:
-        return {"message": "this shape type is not valid"}
+    except HTTPException:
+        raise HTTPException(status_code=400, detail="this shape type is not valid")
 
 
 @app.put("/shapes/{id}")
@@ -60,7 +67,7 @@ def replace(id: int, new_data: dict = Body(...)):
     try:
         shape_type = sm.find_type(id)
         if shape_type is None:
-            raise IdNotFound
+            raise HTTPException(status_code=400, detail="wrong id")
         if shape_type == "circle":
             update_dict = {"radius": new_data["radius"]}
         elif shape_type == "square":
@@ -69,34 +76,43 @@ def replace(id: int, new_data: dict = Body(...)):
             update_dict = {"length": new_data["length"], "height": new_data["height"]}
         sm.update_shape(id, update_dict)
         return {"message": f"{id} updated"}
-    except IdNotFound:
-        return {"message": "id not found"}
+    except HTTPException:
+        raise HTTPException(status_code=400, detail="wrong details")
     
 
 @app.get("/shapes/{id}")
 def get_shape(id:int):
-    for shape in sm.get_all_shapes():
-        if shape.shape_id == id:
-            return shape.to_dict()
-    return {"message":"shape not found"}
+    try:
+        for shape in sm.get_all_shapes():
+            if shape.shape_id == id:
+                return shape.to_dict()
+    except HTTPException:
+        raise HTTPException(status_code=404,detail="shape not found")
 
 
 @app.delete("/shapes/{id}")
 def delete(id:int):
-    sm.delete_shape(id)
-    return {"message":f"{id} deleted"}
-
+    try:
+        sm.delete_shape(id)
+        return {"message":f"{id} deleted"}
+    except HTTPException:
+        raise HTTPException(status_code=400, detail="wrong id")
 
 @app.get("/shapes/types/{type}")
 def type_filter(type:str):
-    filterd = []
-    for shape in sm.get_all_shapes():
-        if shape.type == type:
-            filterd.append(shape.to_dict())
-    if not filterd:
-        return {"message":"no shapes of this type"}
-    return filterd
+    try:
+        filterd = []
+        for shape in sm.get_all_shapes():
+            if shape.type == type:
+                filterd.append(shape.to_dict())
+        if not filterd:
+            return {"message":"no shapes of this type"}
+        return filterd
+    except HTTPException:
+        raise HTTPException(status_code=400, detail="type is wrong")
 
 
-uvicorn.run(app, host="localhost", port=8888)
+if __name__ == "__main__":
+    uvicorn.run(app, host="localhost", port=8888)
+
 
