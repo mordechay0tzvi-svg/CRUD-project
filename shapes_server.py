@@ -5,12 +5,6 @@ from handlers import *
 from shape_manager import ShapeManager
 from fastapi import HTTPException
 
-class NotAShapeError(Exception):
-    pass
-
-class IdNotFound(Exception):
-    pass
-
 
 app = fastapi.FastAPI()
 sm = ShapeManager()
@@ -28,7 +22,6 @@ def get__shapes():
     return shape_list
 
 
-
 @app.get("/shapes/total-area")
 def total_area():
     """returns the combiend area of all the shapes or raises an error if no shapes"""
@@ -39,14 +32,15 @@ def total_area():
         total += shape.get_area()
     return {"total area":total}
 
+
 @app.get("/shapes/count")
 def count():
     """returns how many shapes are"""
     if not sm.get_all_shapes():
         raise HTTPException(status_code=404, detail="no shapes yet")
     return {"count":len(sm.get_all_shapes())}
-
-
+ 
+    
 @app.post("/shapes")
 def create(shape_data: dict = Body(...)): 
     """adds a new shape and raises error if shape type is not good"""
@@ -97,7 +91,7 @@ def delete(id:int):
     try:
         sm.delete_shape(id)
         return {"message":f"{id} deleted"}
-    except IdNotFound:
+    except:
         raise HTTPException(status_code=400, detail="wrong id")
 
 @app.get("/shapes/types/{type}")

@@ -99,3 +99,4 @@ class ShapeManager:
             if shape.shape_id == id:
                 return shape.type
         return None
+ 
