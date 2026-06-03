@@ -18,30 +18,30 @@ sm = ShapeManager()
 
 @app.get("/shapes")
 def get__shapes():
-    try:
-        shape_list = []
-        for shape in sm.get_all_shapes():
-            shape_list.append(shape.to_dict(), "\n")
-        return shape_list
-    except HTTPException:
+    shape_list = []
+    for shape in sm.get_all_shapes():
+        shape_list.append(shape.to_dict())
+    shapes = sm.get_all_shapes()
+    if not shapes:
         raise HTTPException(status_code=404, detail="no shapes yet")
+    return shape_list
+
 
 @app.get("/shapes/total-area")
 def total_area():
-    try:
-        total = 0 
-        for shpae in sm.get_all_shapes():
-            total += shpae.get_area()
-        return {"total area":total}
-    except HTTPException:
+    if not sm.get_all_shapes():
         raise HTTPException(status_code=404, detail="no shapes yet")
+    total = 0 
+    for shape in sm.get_all_shapes():
+        total += shape.get_area()
+    return {"total area":total}
 
 @app.get("/shapes/count")
 def count():
-    try:
-        return {"count":len(sm.get_all_shapes())}
-    except HTTPException:
+    if not sm.get_all_shapes():
         raise HTTPException(status_code=404, detail="no shapes yet")
+    return {"count":len(sm.get_all_shapes())}
+
 
 @app.post("/shapes")
 def create(shape_data: dict = Body(...)): 
@@ -58,7 +58,7 @@ def create(shape_data: dict = Body(...)):
             raise NotAShapeError
         sm.create_shape(shape_obj)
         return {"message": "created"}
-    except HTTPException:
+    except:
         raise HTTPException(status_code=400, detail="this shape type is not valid")
 
 
@@ -82,12 +82,10 @@ def replace(id: int, new_data: dict = Body(...)):
 
 @app.get("/shapes/{id}")
 def get_shape(id:int):
-    try:
-        for shape in sm.get_all_shapes():
-            if shape.shape_id == id:
-                return shape.to_dict()
-    except HTTPException:
-        raise HTTPException(status_code=404,detail="shape not found")
+    for shape in sm.get_all_shapes():
+        if shape.shape_id == id:
+            return shape.to_dict()
+    raise HTTPException(status_code=404,detail="shape not found")
 
 
 @app.delete("/shapes/{id}")
@@ -100,19 +98,21 @@ def delete(id:int):
 
 @app.get("/shapes/types/{type}")
 def type_filter(type:str):
-    try:
-        filterd = []
-        for shape in sm.get_all_shapes():
-            if shape.type == type:
-                filterd.append(shape.to_dict())
-        if not filterd:
-            return {"message":"no shapes of this type"}
-        return filterd
-    except HTTPException:
+    filterd = []
+    for shape in sm.get_all_shapes():
+        if shape.type == type:
+            filterd.append(shape.to_dict())
+    if not filterd:
         raise HTTPException(status_code=400, detail="type is wrong")
+    return filterd
 
+        
 
 if __name__ == "__main__":
     uvicorn.run(app, host="localhost", port=8888)
+
+
+
+
 
 
