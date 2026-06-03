@@ -47,37 +47,33 @@ def count():
 def create(shape_data: dict = Body(...)): 
     shape_type = shape_data.get("type")
     new_id = sm.get_id()
-    try:
-        if shape_type == "circle":
-            shape_obj = Circle(shape_data["radius"], new_id)
-        elif shape_type == "square":
-            shape_obj = Square(shape_data["side"], new_id)
-        elif shape_type == "rectangle":
-            shape_obj = Rectangle(shape_data["length"], shape_data["height"], new_id)
-        else:
-            raise NotAShapeError
-        sm.create_shape(shape_obj)
-        return {"message": "created"}
-    except:
+    if shape_type == "circle":
+        shape_obj = Circle(shape_data["radius"], new_id)
+    elif shape_type == "square":
+        shape_obj = Square(shape_data["side"], new_id)
+    elif shape_type == "rectangle":
+        shape_obj = Rectangle(shape_data["length"], shape_data["height"], new_id)
+    else:
         raise HTTPException(status_code=400, detail="this shape type is not valid")
+    sm.create_shape(shape_obj)
+    return {"message": "created"}
+    
 
 
 @app.put("/shapes/{id}")
 def replace(id: int, new_data: dict = Body(...)):
-    try:
-        shape_type = sm.find_type(id)
-        if shape_type is None:
-            raise HTTPException(status_code=400, detail="wrong id")
-        if shape_type == "circle":
-            update_dict = {"radius": new_data["radius"]}
-        elif shape_type == "square":
-            update_dict = {"side": new_data["side"]}
-        elif shape_type == "rectangle":
-            update_dict = {"length": new_data["length"], "height": new_data["height"]}
-        sm.update_shape(id, update_dict)
-        return {"message": f"{id} updated"}
-    except HTTPException:
-        raise HTTPException(status_code=400, detail="wrong details")
+    shape_type = sm.find_type(id)
+    if shape_type is None:
+        raise HTTPException(status_code=400, detail="wrong id")
+    if shape_type == "circle":
+        update_dict = {"radius": new_data["radius"]}
+    elif shape_type == "square":
+        update_dict = {"side": new_data["side"]}
+    elif shape_type == "rectangle":
+        update_dict = {"length": new_data["length"], "height": new_data["height"]}
+    sm.update_shape(id, update_dict)
+    return {"message": f"{id} updated"}
+
     
 
 @app.get("/shapes/{id}")
@@ -93,7 +89,7 @@ def delete(id:int):
     try:
         sm.delete_shape(id)
         return {"message":f"{id} deleted"}
-    except HTTPException:
+    except IdNotFound:
         raise HTTPException(status_code=400, detail="wrong id")
 
 @app.get("/shapes/types/{type}")
@@ -113,6 +109,4 @@ if __name__ == "__main__":
 
 
 
-
-
-
+ 
